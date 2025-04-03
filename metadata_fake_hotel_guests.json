@@ -1,0 +1,53 @@
+{
+    "tables": {
+        "sdv_demo_fake_hotel_guests_dataset": {
+            "columns": {
+                "index": {
+                    "sdtype": "id"
+                },
+                "name": {
+                    "sdtype": "name",
+                    "pii": true
+                },
+                "age": {
+                    "sdtype": "numerical"
+                },
+                "guest_email": {
+                    "sdtype": "email",
+                    "pii": true
+                },
+                "has_rewards": {
+                    "sdtype": "categorical"
+                },
+                "room_type": {
+                    "sdtype": "categorical"
+                },
+                "amenities_fee": {
+                    "sdtype": "numerical"
+                },
+                "checkin_date": {
+                    "sdtype": "datetime",
+                    "datetime_format": "%d-%b-%y"
+                },
+                "checkout_date": {
+                    "sdtype": "datetime",
+                    "datetime_format": "%d-%b-%y"
+                },
+                "room_rate": {
+                    "sdtype": "numerical"
+                },
+                "billing_address": {
+                    "sdtype":  "address",
+                    "pii": true
+                },
+                "credit_card_number": {
+                    "sdtype": "credit_card_number",
+                    "pii": true
+                }
+            },
+            "primary_key": "index"
+        }
+    },
+    "relationships": [],
+    "METADATA_SPEC_VERSION": "V1"
+}

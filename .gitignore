@@ -169,3 +169,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+friends/
+iframe_figures/
+load_readings/
+sdv.ipynb
+*.tmp:*
+*:Zone.Identifier
+*.DS_Store
+database.sqlite
+*:6E53BFF5-0001-412b-8407-E3AEDE763511
