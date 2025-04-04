@@ -1,4 +1,5 @@
 from typing import Literal
+import json
 import pandas as pd
 from sdv.datasets.local import load_csvs
 from sdv.metadata import Metadata
@@ -13,7 +14,7 @@ from sdv.evaluation.single_table import evaluate_quality
 
 def read_csv_data(folder: str) -> dict[pd.DataFrame]:
     data = load_csvs(folder_name=folder)
-    print(data.keys())
+    # print(data.keys())
     count = len(data)
     # print(f"Number of tables: {count}")
     return data, count
@@ -26,7 +27,6 @@ def autodetect_metadata(data: pd.DataFrame) -> dict:
 
 def select_model(
     metadata: dict,
-    single_table_name: str,
     model_type: str = Literal["GaussianCopula", "CTGAN", "CopulaGAN", "TVAE"],
 ) -> callable:
 
@@ -65,16 +65,26 @@ def create_synthetic_data(
     constraints_path: str = None,
 ):
     synthesizer = select_model(metadata, model_type)
+    if constraints_path:
+        print(f"Loading constraints from {constraints_path}")
+        with open(constraints_path) as f:
+            constraints = json.load(f)
+        constraints_list = [
+            constraints[constraint] for constraint in list(constraints.keys())
+        ]
+        synthesizer.add_constraints(
+            constraints=constraints_list,
+        )
     synthesizer.fit(data=data[single_table_name])
     synthetic_data = synthesizer.sample(num_rows)
     return synthetic_data
 
 
 def evaluate_synthetic_data(
-    synthetic_data,
-    real_data,
-    metadata,
-    single_table_name,
+    synthetic_data: pd.DataFrame,
+    real_data: dict,
+    metadata: dict,
+    single_table_name: str,
 ) -> tuple:
     quality_report = evaluate_quality(
         real_data[single_table_name], synthetic_data, metadata

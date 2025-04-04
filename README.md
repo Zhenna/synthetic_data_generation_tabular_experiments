@@ -13,13 +13,22 @@ pip install -r requirements.txt
 Simply run
 
 '''bash
- python main.py
+python main.py
 '''
 
 ## 2. Generate synthetic data for an existing csv file in `real_data`
 
 '''bash
- python main.py --folder_path real_data 
-    --path_to_metadata metadata_fake_hotel_guests.json 
-    --save_path synthetic_data_sdv.csv
+python main.py --folder_path real_data
 '''
+
+It is highly recommended to upload a custom metadata and constraints files. Run the command below to generate higher quality synthetic data and save the output as csv file.
+
+'''bash
+python main.py --folder_path real_data \
+    --path_to_metadata metadata_fake_hotel_guests.json \
+    --save_path synthetic_data_sdv.csv \
+    --constraint_path custom_constraints.json
+'''
+
+

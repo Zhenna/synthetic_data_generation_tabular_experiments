@@ -1,6 +1,7 @@
 # %%
 import time
-import json
+
+# import json
 import argparse
 
 from sdv.datasets.demo import download_demo
@@ -16,7 +17,7 @@ if __name__ == "__main__":
         "--folder_path",
         required=False,
         type=str,
-        help="Directory to a folder with one or more csv files. If none is provided, a demo dataset will be used.",
+        help="Directory to a folder with one csv file. If none is provided, a demo dataset will be used.",
     )
     parser.add_argument(
         "--path_to_metadata",
@@ -37,6 +38,12 @@ if __name__ == "__main__":
         type=str,
         help='Path to save the generated synthetic data (example="synthetic_data_sdv.csv"). If none is provided, the data will not be saved.',
     )
+    parser.add_argument(
+        "--constraint_path",
+        required=False,
+        type=str,
+        help='Path to custom constraints (example="custom_constraints.json"). If none is provided, constraints will not be applied.',
+    )
 
     args = parser.parse_args()
 
@@ -45,8 +52,6 @@ if __name__ == "__main__":
         metadata = autodetect_metadata(data)
         if count > 1:
             raise Exception("Please upload only one table.")
-        else:
-            data = data[list(data.keys())[0]]
     else:
         data, metadata = download_demo(
             modality="single_table", dataset_name="fake_hotel_guests"
@@ -74,7 +79,7 @@ if __name__ == "__main__":
             print(f"Running {model} on {table_name}...")
 
             synthetic_data = create_synthetic_data(
-                metadata, data, table_name, model, args.num_rows
+                metadata, data, table_name, model, args.num_rows, args.constraint_path
             )
             print(synthetic_data.head())
 
