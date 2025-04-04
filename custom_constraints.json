@@ -1,0 +1,26 @@
+{
+    "positive_constraint": {
+        "constraint_class": "Positive",
+        "constraint_parameters": {
+            "column_name": "room_rate",
+            "strict_boundaries": true
+        }
+    },
+    "age_constraint": {
+        "constraint_class": "ScalarRange",
+        "constraint_parameters": {
+            "column_name": "age",
+            "low_value": 18,
+            "high_value": 60,
+            "strict_boundaries": true
+        }
+    },
+    "date_constraint": {
+        "constraint_class": "Inequality",
+        "constraint_parameters": {
+            "low_column_name": "checkin_date",
+            "high_column_name": "checkout_date",
+            "strict_boundaries": true
+        }
+    }
+}

@@ -26,6 +26,7 @@ def autodetect_metadata(data: pd.DataFrame) -> dict:
 
 def select_model(
     metadata: dict,
+    single_table_name: str,
     model_type: str = Literal["GaussianCopula", "CTGAN", "CopulaGAN", "TVAE"],
 ) -> callable:
 
@@ -56,11 +57,12 @@ def select_model(
 
 
 def create_synthetic_data(
-    metadata,
-    data,
-    single_table_name,
-    model_type=Literal["GaussianCopula", "CTGAN", "CopulaGAN", "TVAE"],
-    num_rows=500,
+    metadata: dict,
+    data: dict,
+    single_table_name: str,
+    model_type: str = Literal["GaussianCopula", "CTGAN", "CopulaGAN", "TVAE"],
+    num_rows: int = 500,
+    constraints_path: str = None,
 ):
     synthesizer = select_model(metadata, model_type)
     synthesizer.fit(data=data[single_table_name])
