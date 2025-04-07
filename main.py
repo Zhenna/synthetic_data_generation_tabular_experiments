@@ -1,14 +1,10 @@
-# %%
 import time
-
-# import json
 import argparse
 
 from sdv.datasets.demo import download_demo
 
 from utilities import *
 
-# %%
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="This program will generate synthetic data for csv files using SDV."
@@ -36,7 +32,7 @@ if __name__ == "__main__":
         "--save_path",
         required=False,
         type=str,
-        help='Path to save the generated synthetic data (example="synthetic_data_sdv.csv"). If none is provided, the data will not be saved.',
+        help='Path to save the generated synthetic data (example="synthetic_data_sdv.csv"). If none is provided, the generated synthetic data will not be saved.',
     )
     parser.add_argument(
         "--constraint_path",
@@ -56,17 +52,15 @@ if __name__ == "__main__":
         data, metadata = download_demo(
             modality="single_table", dataset_name="fake_hotel_guests"
         )
-    # %%
+
     if args.path_to_metadata:
         metadata = Metadata.load_from_json(args.path_to_metadata)
     else:
         metadata = autodetect_metadata(data)
 
-    # %%
-
     for table_name in data.keys():
 
-        overall_score = 0
+        top_score = 0
         model_results = []
 
         for model in [
@@ -98,9 +92,8 @@ if __name__ == "__main__":
                 }
             )
 
-            if avg_score > overall_score:
-                overall_score = avg_score
-                # save csv
+            if avg_score > top_score:
+                top_score = avg_score
                 if args.save_path:
                     synthetic_data.to_csv(args.save_path, index=False)
                     print(f"Saving or overwriting synthetic data to {args.save_path}.")
@@ -115,5 +108,3 @@ if __name__ == "__main__":
         pd.DataFrame(model_results).to_csv(
             f"model_results_{table_name}.csv", index=False
         )
-
-    # %%

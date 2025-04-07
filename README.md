@@ -1,5 +1,8 @@
 # synthetic_data_generation_tabular_experiments
 
+Please read my blog post for a comparison between SDV and LLM.
+
+
 If you are using SDV for the first time, please refer to the notebook `sdv.ipynb`.
 
 To run the program, please run command below to install dependencies:
